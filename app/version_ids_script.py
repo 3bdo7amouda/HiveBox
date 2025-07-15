@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+HiveBox Application - Version and SenseBox IDs Script
+
+This module provides basic functionality for the HiveBox application including
+version printing and SenseBox ID management for environmental sensor data tracking.
+"""
 
 __version__ = "0.0.1"
 
