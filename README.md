@@ -10,8 +10,6 @@ A DevOps end-to-end hands-on project that builds a scalable RESTful API to track
 
 Special thanks to **[Eng. Ahmed AbouZaid](https://github.com/aabouzaid)** for proposing the HiveBox project idea and creating the comprehensive [DevOps Roadmap](https://devopsroadmap.io/projects/hivebox/). Their vision and thoughtful design helped shape this meaningful learning experience.
 
-Additional appreciation to **[Khaled](https://github.com/Khaled1771)** for their [implementation reference](https://github.com/Khaled1771/HiveBox) that provides valuable insights into the project structure.
-
 ## 📋 Project Overview
 
 HiveBox is designed around helping beekeepers track environmental data that affects their hives. The system fetches data from openSenseMap sensors and provides a RESTful API for monitoring temperature, humidity, and other environmental factors.
