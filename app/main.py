@@ -9,6 +9,7 @@ Provides RESTful API endpoints for version info and sensor data.
 from flask import Flask, jsonify, request
 import requests
 import logging
+from datetime import datetime
 
 __version__ = "0.0.1"
 
@@ -51,12 +52,35 @@ def fetch_sensebox_data(sensebox_id):
         logger.error(f"Error fetching data for senseBox {sensebox_id}: {e}")
         return None
 
-def get_temperature_from_sensebox(sensebox_data):
+def fetch_latest_measurements(sensebox_id):
     """
-    Extract temperature data from senseBox response.
+    Fetch latest measurements for all sensors of a senseBox.
+    
+    Args:
+        sensebox_id (str): The ID of the senseBox
+        
+    Returns:
+        dict: Response data or None if failed
+    """
+    try:
+        url = f"{OPENSENSEMAP_BASE_URL}/boxes/{sensebox_id}/sensors"
+        logger.info(f"Fetching latest measurements from: {url}")
+        
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error fetching measurements for senseBox {sensebox_id}: {e}")
+        return None
+
+def get_temperature_from_sensebox(sensebox_data, latest_measurements):
+    """
+    Extract temperature data from senseBox response and measurements.
     
     Args:
         sensebox_data (dict): Response from openSenseMap API
+        latest_measurements (dict): Latest measurements from sensors endpoint
         
     Returns:
         dict: Temperature data or None if not found
@@ -64,14 +88,61 @@ def get_temperature_from_sensebox(sensebox_data):
     if not sensebox_data or 'sensors' not in sensebox_data:
         return None
     
-    # Look for temperature sensor
+    # Look for temperature sensor with more flexible matching
+    temperature_keywords = [
+        'temperature', 'temperatur', 'temp', 'température',
+        'lufttemperatur', 'air temperature', 'ambient temperature'
+    ]
+    
     for sensor in sensebox_data['sensors']:
-        if sensor.get('phenomenon', '').lower() in ['temperature', 'temperatur']:
+        phenomenon = sensor.get('phenomenon', '').lower()
+        unit = sensor.get('unit', '').lower()
+        sensor_id = sensor.get('_id')
+        
+        # Check if phenomenon contains temperature keywords
+        if any(keyword in phenomenon for keyword in temperature_keywords):
+            # Get latest measurement from measurements endpoint
+            measurement_value = None
+            measurement_timestamp = None
+            
+            if latest_measurements and 'sensors' in latest_measurements:
+                for measurement_sensor in latest_measurements['sensors']:
+                    if measurement_sensor.get('_id') == sensor_id:
+                        if 'lastMeasurement' in measurement_sensor:
+                            measurement = measurement_sensor['lastMeasurement']
+                            measurement_value = measurement.get('value')
+                            measurement_timestamp = measurement.get('createdAt')
+                        break
+            
             return {
-                'sensor_id': sensor.get('_id'),
+                'sensor_id': sensor_id,
                 'phenomenon': sensor.get('phenomenon'),
                 'unit': sensor.get('unit'),
-                'last_measurement': sensor.get('lastMeasurement')
+                'value': measurement_value,
+                'timestamp': measurement_timestamp
+            }
+        
+        # Also check if unit indicates temperature (°C, celsius, etc.)
+        if unit in ['°c', 'c', 'celsius', '°f', 'f', 'fahrenheit']:
+            # Get latest measurement
+            measurement_value = None
+            measurement_timestamp = None
+            
+            if latest_measurements and 'sensors' in latest_measurements:
+                for measurement_sensor in latest_measurements['sensors']:
+                    if measurement_sensor.get('_id') == sensor_id:
+                        if 'lastMeasurement' in measurement_sensor:
+                            measurement = measurement_sensor['lastMeasurement']
+                            measurement_value = measurement.get('value')
+                            measurement_timestamp = measurement.get('createdAt')
+                        break
+            
+            return {
+                'sensor_id': sensor_id,
+                'phenomenon': sensor.get('phenomenon'),
+                'unit': sensor.get('unit'),
+                'value': measurement_value,
+                'timestamp': measurement_timestamp
             }
     
     return None
@@ -126,7 +197,7 @@ def get_temperature():
     for sensebox_id in sensebox_ids_to_query:
         logger.info(f"Processing senseBox: {sensebox_id}")
         
-        # Fetch data from openSenseMap
+        # Fetch basic senseBox data
         sensebox_data = fetch_sensebox_data(sensebox_id)
         
         if sensebox_data is None:
@@ -137,8 +208,11 @@ def get_temperature():
             })
             continue
         
+        # Fetch latest measurements
+        latest_measurements = fetch_latest_measurements(sensebox_id)
+        
         # Extract temperature data
-        temperature_data = get_temperature_from_sensebox(sensebox_data)
+        temperature_data = get_temperature_from_sensebox(sensebox_data, latest_measurements)
         
         if temperature_data is None:
             results.append({
@@ -163,7 +237,7 @@ def get_temperature():
         })
     
     return jsonify({
-        "timestamp": "2025-07-16T12:00:00Z",  # You can use datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat() + "Z",
         "total_results": len(results),
         "data": results
     })
