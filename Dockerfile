@@ -2,8 +2,18 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY version_ids_script.py .
+# Set Flask environment
+ENV FLASK_APP=app/main.py
 
-RUN chmod +x version_ids_script.py
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python3", "version_ids_script.py"]
+# Copy the Flask app
+COPY app/ ./app/
+
+# Expose port 5000
+EXPOSE 5000
+
+# Run the Flask app
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"]
