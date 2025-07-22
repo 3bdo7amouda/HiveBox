@@ -106,8 +106,8 @@ jobs:
   security:
     name: Security Analysis
     runs-on: ubuntu-latest
-    # Only run on main branch since OpenSSF Scorecard requires default branch
-    if: github.ref == 'refs/heads/main'
+    # Run on main and Phase_2_GitHub_Actions branches
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/Phase_2_GitHub_Actions'
     permissions:
       security-events: write
       contents: read
