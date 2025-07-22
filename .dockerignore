@@ -1,0 +1,41 @@
+# Version control
+.git
+.gitignore
+
+# Python cache and build files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Testing
+.pytest_cache/
+.coverage
+*.cover
+
+# Virtual environments
+.venv
+venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+docs/
+
+# Tests (not needed in production)
+tests/
+
+# Docker files
+docker-compose*.yml
+
+# Log files
+*.log
