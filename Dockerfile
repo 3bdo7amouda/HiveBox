@@ -9,7 +9,7 @@ RUN groupadd --system --gid 1001 appgroup && \
 WORKDIR /app
 
 # Set environment variables
-ENV FLASK_APP=app/main.py \
+ENV FLASK_APP=app/main.py
 
 # Copy requirements first for better layer caching
 COPY requirements.txt .
