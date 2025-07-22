@@ -1,7 +1,7 @@
 # HiveBox 🐝
 
-[![Phase](https://img.shields.io/badge/Phase-2%20(Start)-green)](https://devopsroadmap.io/projects/hivebox/)
-[![Version](https://img.shields.io/badge/Version-v0.0.1-green)](https://github.com/abdo/HiveBox)
+[![Phase](https://img.shields.io/badge/Phase-2%20(In%20Progress)-yellow)](https://devopsroadmap.io/projects/hivebox/)
+[![Version](https://img.shields.io/badge/Version-v0.1.1-green)](https://github.com/abdo/HiveBox)
 [![License](https://img.shields.io/badge/License-Educational-orange)](LICENSE)
 
 A DevOps end-to-end hands-on project that builds a scalable RESTful API to track environmental sensor data from [openSenseMap](https://opensensemap.org/). This project follows the complete Software Development Life Cycle (SDLC) covering planning, coding, containers, testing, CI/CD, and infrastructure.
@@ -32,19 +32,23 @@ HiveBox is designed around helping beekeepers track environmental data that affe
 - [x] Project kickoff and methodology selection (Kanban)
 - [x] Git repository setup and GitHub connection
 - [x] Basic application with version printing (v0.0.1)
-- [x] Docker containerization
+- [x] Docker containerization with basic setup
 - [x] SenseBox IDs configuration
 - [x] Local testing and validation
 - [x] Documentation and project structure
 
-### 🔄 Phase 2: Start - Laying the Base (Current Phase)
-- [ ] Flask/FastAPI implementation
-- [ ] `/version` endpoint
-- [ ] `/temperature` endpoint with openSenseMap integration
-- [ ] Unit tests for all endpoints
-- [ ] GitHub Actions CI workflow
-- [ ] Code linting (Pylint, Hadolint)
-- [ ] Container best practices
+### 🔄 Phase 2: Start - Laying the Base (In Progress)
+- [x] Flask implementation with full REST API
+- [x] `/` endpoint (API discovery)
+- [x] `/version` endpoint (health check)
+- [x] `/temperature` endpoint with openSenseMap integration
+- [x] Advanced error handling and input validation
+- [x] Unit tests for all endpoints with mocking
+- [x] Docker best practices implementation
+- [x] Production-ready containerization
+- [ ] GitHub Actions CI workflow **← Currently Working On**
+- [ ] Code linting integration (Pylint, Hadolint)
+- [ ] Automated testing in CI pipeline
 
 ### 📅 Upcoming Phases
 
@@ -60,11 +64,12 @@ HiveBox is designed around helping beekeepers track environmental data that affe
 
 | Category | Technology | Status |
 |----------|------------|--------|
-| **Backend** | Python 3.9+ | ✅ |
-| **Framework** | Flask/FastAPI | 🔄 Next |
-| **Containerization** | Docker | ✅ |
-| **CI/CD** | GitHub Actions | 🔄 Next |
-| **Testing** | Pytest | 🔄 Next |
+| **Backend** | Python 3.12 | ✅ |
+| **Framework** | Flask | ✅ |
+| **API Integration** | openSenseMap REST API | ✅ |
+| **Containerization** | Docker (Multi-layer, Security) | ✅ |
+| **Testing** | Pytest with Mocking | ✅ |
+| **CI/CD** | GitHub Actions | 🔄 In Progress |
 | **Linting** | Pylint, Hadolint | 🔄 Next |
 | **Orchestration** | Kubernetes | 📅 Future |
 | **Caching** | Redis/Valkey | 📅 Future |
@@ -75,26 +80,27 @@ HiveBox is designed around helping beekeepers track environmental data that affe
 ```
 HiveBox/
 ├── app/
-│   ├── version_ids_script.py    # Phase 1: Basic version script
-│   └── [API endpoints]          # Phase 2: Flask/FastAPI app
-├── tests/                       # Phase 2: Unit tests
+│   └── main.py                  # ✅ Flask REST API with full functionality
+├── tests/
+│   ├── __init__.py             # ✅ Test package
+│   └── test_main.py            # ✅ Comprehensive unit tests
 ├── .github/
-│   └── workflows/               # Phase 2: CI/CD workflows
-├── Dockerfile                   # Phase 1: Container config
-├── requirements.txt             # Phase 2: Python dependencies
-├── README.md                   # Project documentation
-└── .gitignore                  # Git ignore rules
+│   └── workflows/              # 🔄 CI/CD workflows (in progress)
+├── Dockerfile                  # ✅ Production-ready container
+├── .dockerignore               # ✅ Optimized build context
+├── requirements.txt            # ✅ Pinned dependencies
+├── README.md                   # ✅ Project documentation
+└── .gitignore                  # ✅ Git ignore rules
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.9+
+- Python 3.12+
 - Docker
 - Git
-- VS Code (recommended)
 
-### Phase 1 - Current Implementation
+### Current Implementation (Phase 2)
 
 1. **Clone the repository:**
    ```bash
@@ -104,26 +110,85 @@ HiveBox/
 
 2. **Run locally:**
    ```bash
-   python3 app/version_ids_script.py
+   # Install dependencies
+   pip install -r requirements.txt
+   
+   # Run Flask app
+   export FLASK_APP=app/main.py
+   flask run
    ```
 
-3. **Build and run with Docker:**
+3. **Run with Docker:**
    ```bash
-   docker build -t hivebox:0.0.1 .
-   docker run hivebox:0.0.1
+   # Build optimized image
+   docker build -t hivebox:0.1.1 .
+   
+   # Run container
+   docker run -d -p 5000:5000 --name hivebox-app hivebox:0.1.1
    ```
 
-**Expected Output:**
-```
-HiveBox v0.0.1
-```
+4. **Test the API:**
+   ```bash
+   # API discovery
+   curl http://localhost:5000/
+   
+   # Health check
+   curl http://localhost:5000/version
+   
+   # Get temperature data
+   curl http://localhost:5000/temperature
+   
+   # Get specific sensor
+   curl "http://localhost:5000/temperature?sensebox_id=5eba5fbad46fb8001b799786"
+   ```
 
-### Phase 2 - Next Steps
+5. **Run tests:**
+   ```bash
+   # Run all tests
+   pytest
+   
+   # Run with coverage
+   pytest --cov=app
+   ```
 
-The next implementation will include:
-- RESTful API endpoints
-- Integration with openSenseMap API
-- Automated testing and CI/CD
+## 📊 API Endpoints
+
+### Current Functionality
+
+| Endpoint | Method | Description | Status |
+|----------|--------|-------------|--------|
+| `/` | GET | API discovery and welcome | ✅ |
+| `/version` | GET | Health check and version info | ✅ |
+| `/temperature` | GET | All sensors temperature data | ✅ |
+| `/temperature?sensebox_id=ID` | GET | Specific sensor temperature | ✅ |
+
+### Example Response
+```json
+{
+  "timestamp": "2025-07-22T12:00:00Z",
+  "total_results": 3,
+  "successful_results": 2,
+  "failed_results": 1,
+  "data": [
+    {
+      "sensebox_id": "5eba5fbad46fb8001b799786",
+      "status": "success",
+      "name": "Environmental Station",
+      "location": {
+        "coordinates": [11.5820, 48.1351],
+        "type": "Point"
+      },
+      "temperature": {
+        "sensor_id": "sensor123",
+        "phenomenon": "Lufttemperatur",
+        "unit": "°C",
+        "value": 23.4,
+        "timestamp": "2025-07-22T11:45:00Z"
+      }
+    }
+  ]
+}
+```
 
 ## 📊 SenseBox Configuration
 
@@ -141,7 +206,8 @@ This project follows **Kanban methodology** with continuous delivery:
 ```
 | To Do | In Progress | Testing | Done |
 |-------|-------------|---------|------|
-| Phase 2 API | Phase 2 Setup | - | Phase 1 Complete |
+| GitHub Actions | CI/CD Setup | Unit Tests | Flask API |
+| Code Linting | - | Docker Build | Error Handling |
 ```
 
 ### Git Workflow
@@ -152,23 +218,22 @@ This project follows **Kanban methodology** with continuous delivery:
 ## 🎯 Learning Objectives
 
 Following the DevOps Roadmap structure:
-1. **Make it work** - Basic functionality first
-2. **Make it right** - Clean code and proper structure  
-3. **Make it fast** - Optimize performance later
-
-Avoiding scope creep and focusing on incremental delivery.
+1. **Make it work** - ✅ Basic functionality complete
+2. **Make it right** - ✅ Clean code and proper structure implemented  
+3. **Make it fast** - 🔄 CI/CD optimization in progress
 
 ## 📚 Learning Resources
 
 - [DevOps Roadmap - HiveBox Project](https://devopsroadmap.io/projects/hivebox/)
 - [openSenseMap API Documentation](https://docs.opensensemap.org/)
-- [Flask Quickstart](https://flask.palletsprojects.com/en/2.0.x/quickstart/)
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [Flask Documentation](https://flask.palletsprojects.com/)
 - [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
 ## 🔄 Version History
 
-- **v0.0.1** - Initial version with basic functionality and Docker support
+- **v0.1.1** - Complete Flask API with openSenseMap integration, Docker optimization, comprehensive testing
+- **v0.0.1** - Initial version with basic functionality
 
 ## 📄 License
 
