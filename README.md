@@ -1,7 +1,7 @@
 # HiveBox 🐝
 
-[![Phase](https://img.shields.io/badge/Phase-2%20(In%20Progress)-yellow)](https://devopsroadmap.io/projects/hivebox/)
-[![Version](https://img.shields.io/badge/Version-v0.1.1-green)](https://github.com/abdo/HiveBox)
+[![Phase](https://img.shields.io/badge/Phase-2%20(Completed)-green)](https://devopsroadmap.io/projects/hivebox/)
+[![Version](https://img.shields.io/badge/Version-v0.1.2-green)](https://github.com/abdo/HiveBox)
 [![License](https://img.shields.io/badge/License-Educational-orange)](LICENSE)
 
 A DevOps end-to-end hands-on project that builds a scalable RESTful API to track environmental sensor data from [openSenseMap](https://opensensemap.org/). This project follows the complete Software Development Life Cycle (SDLC) covering planning, coding, containers, testing, CI/CD, and infrastructure.
@@ -37,7 +37,7 @@ HiveBox is designed around helping beekeepers track environmental data that affe
 - [x] Local testing and validation
 - [x] Documentation and project structure
 
-### 🔄 Phase 2: Start - Laying the Base (In Progress)
+### 🔄 Phase 2: Start - Laying the Base (Completed)
 - [x] Flask implementation with full REST API
 - [x] `/` endpoint (API discovery)
 - [x] `/version` endpoint (health check)
@@ -46,9 +46,9 @@ HiveBox is designed around helping beekeepers track environmental data that affe
 - [x] Unit tests for all endpoints with mocking
 - [x] Docker best practices implementation
 - [x] Production-ready containerization
-- [ ] GitHub Actions CI workflow **← Currently Working On**
-- [ ] Code linting integration (Pylint, Hadolint)
-- [ ] Automated testing in CI pipeline
+- [x] GitHub Actions CI workflow
+- [x] Code linting integration (Pylint, Hadolint)
+- [x] Automated testing in CI pipeline
 
 ### 📅 Upcoming Phases
 
@@ -69,8 +69,8 @@ HiveBox is designed around helping beekeepers track environmental data that affe
 | **API Integration** | openSenseMap REST API | ✅ |
 | **Containerization** | Docker (Multi-layer, Security) | ✅ |
 | **Testing** | Pytest with Mocking | ✅ |
-| **CI/CD** | GitHub Actions | 🔄 In Progress |
-| **Linting** | Pylint, Hadolint | 🔄 Next |
+| **CI/CD** | GitHub Actions | ✅ |
+| **Linting** | Pylint, Hadolint | ✅ |
 | **Orchestration** | Kubernetes | 📅 Future |
 | **Caching** | Redis/Valkey | 📅 Future |
 | **Storage** | MinIO | 📅 Future |
@@ -85,7 +85,7 @@ HiveBox/
 │   ├── __init__.py             # ✅ Test package
 │   └── test_main.py            # ✅ Comprehensive unit tests
 ├── .github/
-│   └── workflows/              # 🔄 CI/CD workflows (in progress)
+│   └── workflows/              # ✅ CI/CD workflows
 ├── Dockerfile                  # ✅ Production-ready container
 ├── .dockerignore               # ✅ Optimized build context
 ├── requirements.txt            # ✅ Pinned dependencies
@@ -232,8 +232,8 @@ Following the DevOps Roadmap structure:
 
 ## 🔄 Version History
 
-- **v0.1.1** - Complete Flask API with openSenseMap integration, Docker optimization, comprehensive testing
-- **v0.0.1** - Initial version with basic functionality
+- **v0.1.2** - Complete Flask API with openSenseMap integration, Docker optimization, comprehensive testing, GitHub Actions CI
+- **v0.1.1** - Initial version with basic functionality
 
 ## 📄 License
 
