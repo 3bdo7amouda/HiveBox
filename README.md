@@ -240,5 +240,3 @@ Following the DevOps Roadmap structure:
 This project is for educational purposes as part of the DevOps learning journey.
 
 ---
-
-*🐝 Happy DevOpsing! Remember: Make it work, make it right, make it fast!*
