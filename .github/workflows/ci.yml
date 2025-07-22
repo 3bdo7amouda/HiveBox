@@ -9,6 +9,8 @@ on:
 env:
   PYTHON_VERSION: '3.12'
   DOCKER_IMAGE_NAME: hivebox
+  DOCKER_REPOSITORY: 3bdo7amouda/hivebox
+  IMAGE_TAG: v0.1.1
 
 jobs:
   lint:
@@ -83,14 +85,15 @@ jobs:
         context: .
         push: ${{ github.event_name == 'push' }}
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
-          ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+          ${{ env.DOCKER_REPOSITORY }}:latest
+          ${{ env.DOCKER_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          ${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
     - name: Test Docker image
       run: |
-        docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} python -c "import app.main; print('✅ Image works')"
+        docker run --rm ${{ env.DOCKER_REPOSITORY }}:${{ env.IMAGE_TAG }} python -c "import app.main; print('✅ Image works')"
 
   security:
     name: Security Scan
