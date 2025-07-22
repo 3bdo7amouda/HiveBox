@@ -98,6 +98,8 @@ jobs:
   security:
     name: Security Scan
     runs-on: ubuntu-latest
+    # Only run on default branch (main) since OpenSSF Scorecard requires it
+    if: github.ref == 'refs/heads/main'
     permissions:
       security-events: write
       contents: read
