@@ -101,7 +101,7 @@ jobs:
 
     - name: Test Docker image
       run: |
-        docker run --rm ${{ env.DOCKER_REPOSITORY }}:${{ github.sha }} python -c "import app.main; print('✅ Image works')"
+        docker run --rm --entrypoint python3 ${{ env.DOCKER_REPOSITORY }}:${{ github.sha }} -c "import app.main; print('✅ Image works')"
 
   security:
     name: Security Analysis
