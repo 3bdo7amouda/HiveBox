@@ -1,5 +1,4 @@
-FROM python:latest-slim-bullseye
-
+FROM python:3.12-slim
 
 # Create non-root user for security
 RUN groupadd --system --gid 1001 appgroup && \
