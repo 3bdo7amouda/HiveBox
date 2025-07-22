@@ -1,7 +1,7 @@
 # HiveBox 🐝
 
 [![Phase](https://img.shields.io/badge/Phase-2%20(Start)-green)](https://devopsroadmap.io/projects/hivebox/)
-[![Version](https://img.shields.io/badge/Version-v0.0.1-green)](https://github.com/abdo/HiveBox)
+[![Version](https://img.shields.io/badge/Version-v0.1.2-green)](https://github.com/abdo/HiveBox)
 [![License](https://img.shields.io/badge/License-Educational-orange)](LICENSE)
 
 A DevOps end-to-end hands-on project that builds a scalable RESTful API to track environmental sensor data from [openSenseMap](https://opensensemap.org/). This project follows the complete Software Development Life Cycle (SDLC) covering planning, coding, containers, testing, CI/CD, and infrastructure.
