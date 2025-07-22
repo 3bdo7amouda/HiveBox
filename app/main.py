@@ -13,7 +13,7 @@ from datetime import datetime
 import requests
 from flask import Flask, jsonify, request
 
-__version__ = "0.0.1"
+__version__ = "0.1.1"
 
 # Create Flask app instance
 app = Flask(__name__)
