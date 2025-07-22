@@ -1,0 +1,8 @@
+failure-threshold: error
+format: json
+ignored:
+  - DL3008  # Pin versions in apt get install (we do pin them in our Dockerfile)
+  - DL3009  # Delete the apt-get lists after installing (we do this)
+trustedRegistries:
+  - docker.io
+  - gcr.io
