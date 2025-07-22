@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main, Phase_2 ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, Phase_2 ]
+    branches: [ main ]
 
 env:
   PYTHON_VERSION: '3.12'
