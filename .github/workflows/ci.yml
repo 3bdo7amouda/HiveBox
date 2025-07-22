@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+# Set minimal permissions at workflow level
+permissions:
+  contents: read
+
 env:
   PYTHON_VERSION: '3.12'
   DOCKER_IMAGE_NAME: hivebox
@@ -16,6 +20,8 @@ jobs:
   lint:
     name: Code Linting
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -43,6 +49,8 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     needs: lint
+    permissions:
+      contents: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -73,6 +81,8 @@ jobs:
     name: Docker Build
     runs-on: ubuntu-latest
     needs: [lint, test]
+    permissions:
+      contents: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -106,11 +116,12 @@ jobs:
   security:
     name: Security Analysis
     runs-on: ubuntu-latest
-    # Only run on default branch since OpenSSF Scorecard requires it
     if: github.ref == 'refs/heads/main'
     permissions:
       security-events: write
       contents: read
+      id-token: write
+      actions: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
